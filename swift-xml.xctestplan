@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "D26D96D7-F76B-4FD0-AFEE-0B059B0350DE",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "XMLTests",
+        "name" : "XMLTests"
+      }
+    }
+  ],
+  "version" : 1
+}
