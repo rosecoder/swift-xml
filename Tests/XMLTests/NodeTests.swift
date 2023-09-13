@@ -18,6 +18,13 @@ final class NodeTests: XCTestCase {
         assertSnapshot(of: document.encoded(), as: .data)
     }
 
+    func testNodeWithAttributes() throws {
+        let document = Document {
+            Node("node", attributes: ["key2": "value2", "key1": "value1"])
+        }
+        assertSnapshot(of: document.encoded(options: .init(shouldSortAttributeKeys: true)), as: .data)
+    }
+
     func testNodeWithChild() throws {
         let document = Document {
             Node("parent") {

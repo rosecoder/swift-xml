@@ -67,10 +67,10 @@ public struct Node {
 
     // MARK: - Encoding
 
-    func encode(into data: inout Data) {
+    func encode(into data: inout Data, options: Document.EncodingOptions) {
         data.append(contentsOf: "<".utf8)
         data.append(contentsOf: name.utf8)
-        encodeAttributes(into: &data)
+        encodeAttributes(into: &data, options: options)
 
         switch content {
         case .none:
@@ -79,7 +79,7 @@ public struct Node {
         case .children(let children):
             data.append(contentsOf: ">".utf8)
             for child in children {
-                child.encode(into: &data)
+                child.encode(into: &data, options: options)
             }
             data.append(contentsOf: "</".utf8)
             data.append(contentsOf: name.utf8)
@@ -126,13 +126,23 @@ public struct Node {
         }
     }
 
-    private func encodeAttributes(into data: inout Data) {
-        for (key, value) in attributes {
+    private func encodeAttributes(into data: inout Data, options: Document.EncodingOptions) {
+        func encodePair(key: String, value: String) {
             data.append(contentsOf: " ".utf8)
             data.append(contentsOf: key.utf8)
             data.append(contentsOf: "=\"".utf8)
             data.append(contentsOf: value.utf8)
             data.append(contentsOf: "\"".utf8)
+        }
+
+        if options.shouldSortAttributeKeys {
+            for (key, value) in attributes.sorted(by: { $0.key < $1.key }) {
+                encodePair(key: key, value: value)
+            }
+        } else {
+            for (key, value) in attributes {
+                encodePair(key: key, value: value)
+            }
         }
     }
 
