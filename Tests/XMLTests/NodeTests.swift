@@ -51,4 +51,46 @@ final class NodeTests: XCTestCase {
         }
         assertSnapshot(of: document.encoded(), as: .data)
     }
+
+    func testNodeResultBuilder() throws {
+        let document = Document {
+            Node("parent") {
+                Node("child")
+
+                if "a" == "a" {
+                    Node("child0")
+                }
+
+                if "a" == "b" {
+                    Node("child0")
+                }
+
+                if "a" == "a" {
+                    Node("child1")
+                    Node("child2")
+                }
+
+                if "a" == "a" {
+                    Node("childA")
+                } else {
+                    Node("childB")
+                }
+
+                if "a" == "b" {
+                    Node("childA")
+                } else {
+                    Node("childB")
+                }
+
+                for index in 0..<10 {
+                    Node("child\(index)")
+                }
+
+                if #available(macOS 10.0, *) {
+                    Node("childg")
+                }
+            }
+        }
+        assertSnapshot(of: document.encoded(), as: .data)
+    }
 }
