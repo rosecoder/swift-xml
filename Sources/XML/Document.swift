@@ -45,6 +45,8 @@ public struct Document {
         var output = Data()
         output.reserveCapacity(rootNode.encodedCapacity)
         rootNode.encode(into: &output, options: options)
+
+        assert(rootNode.encodedCapacity == output.count)
         return output
     }
 }
