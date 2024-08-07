@@ -110,7 +110,7 @@ public struct Node {
             return
                 base +
                 1 + // >
-                children.map({ $0.encodedCapacity }).reduce(0, +) +
+                children.map({ (child) -> Int in child.encodedCapacity }).reduce(0, +) +
                 2 + // </
                 name.utf8.count +
                 1 // >
@@ -152,11 +152,11 @@ public struct Node {
         }
 
         return attributes
-            .map {
+            .map { (attribute, key) -> Int in
                 1 + // space before
-                $0.utf8.count +
+                attribute.utf8.count +
                 2 + // = and starting "
-                $1.utf8.count +
+                key.utf8.count +
                 1 // ending "
             }
             .reduce(0, +)
